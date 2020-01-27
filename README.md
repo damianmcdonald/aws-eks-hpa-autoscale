@@ -1,7 +1,7 @@
 
 # aws-eks-hpa-autoscale
 
-`aws-eks-hpa-autoscale` is a project that demonstrates the use of AWS EKS (Amazon Web Services Elastic Kubernetes Service). 
+`aws-eks-hpa-autoscale` is a project that demonstrates the use of AWS EKS (Elastic Kubernetes Service). 
 
 The project demonstrates:
 * how to install and configure the `eksctl` command
@@ -17,7 +17,7 @@ The diagram below illustrates a high-level overview of AWS EKS.
 
 ![alt text](diagrams/eks-overview-diagram.png "High-level overview AWS EKS diagram")
 
-The `aws-eks-hpa-autoscale` project uses [eskctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) to create the Kubernetes EKS cluster which will result in an architecture similar to that displayed in the diagram below.
+The `aws-eks-hpa-autoscale` project uses [eskctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) to create the EKS cluster which will result in an architecture similar to that displayed in the diagram below.
 
 ![alt text](diagrams/ekscli-ref-architecture.png "High-level overview eksctl diagram")
 
@@ -34,7 +34,9 @@ The following pre-requisities are required in order to work with the `aws-eks-hp
 ## eksctl
 The `aws-eks-hpa-autoscale` project uses [eskctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) to simplify the creation and destruction of the EKS cluster.
 
-The `eksctl` binary can be installed by the commands below:
+Detailed installation instructions can be found at the [AWS Installing eksctl guide](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html).
+
+A quick install guide is provided below:
 
 ```bash
 # download and extract the eksctl binary
@@ -50,7 +52,9 @@ eksctl version
 ## aws-iam-authenticator
 In order to communicate securely with the EKS cluster you need to install the `aws-iam-authenticator`.
 
-The `aws-iam-authenticator` binary can be installed by the commands below:
+Detailed installation instructions can be found at the [AWS Installing aws-iam-authenticator guide](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html).
+
+A quick install guide is provided below:
 
 ```bash
 # download the aws-iam-authenticator binary
@@ -58,10 +62,19 @@ curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14
 
 # add execute permissions to the aws-iam-authenticator binary
 chmod +x ./aws-iam-authenticator
+
+# add aws-iam-authenticator to your $PATH
+mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
+
+# add the $PATH as a permanent path (assumes your shell is Bash)
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+
+# verify that the aws-iam-authenticator binary is installed correctly
+aws-iam-authenticator help
 ```
 
 ## kubectl
-The `kubectl` binary is required to administer the EKC cluster.
+The `kubectl` binary is required to administer the EKS cluster.
 
 Detailed installation instructions can be found at the [AWS Installing kubectl guide](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html).
 
@@ -130,7 +143,7 @@ As part of the execution of the [aws-deploy.sh](aws-deploy.sh) script, two addit
 
 Location | Purpose
 ------------ | -------------
-kubernetes/cluster-autoscaler/cluster-autoscaler.yml | Deploys the `cluster-autoscaler` pod in K8s which is used to dimension and enforce the clusters autoscaling behaviour
+kubernetes/cluster-autoscaler/cluster-autoscaler.yml | Deploys the `cluster-autoscaler` pod in K8s which is used to dimension and enforce the cluster's autoscaling behaviour
 aws-undeploy.sh | Script that can be used to destroy and clean-up all of the resources created by the `aws-eks-hpa-autoscale` project
 
 ## Verify the EKS cluster
